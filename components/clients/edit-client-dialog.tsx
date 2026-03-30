@@ -71,37 +71,37 @@ export function EditClientDialog({ client }: { client: Client }) {
           className="h-7 w-7 shrink-0 text-muted-foreground hover:text-foreground"
           onClick={e => e.stopPropagation()}
         >
-          <Pencil className="h-3.5 w-3.5" />
+          <Pencil className="h-3.5 w-3.5" aria-hidden="true" />
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">
         <DialogHeader><DialogTitle>Edit Client</DialogTitle></DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4 mt-2">
           <div className="space-y-1.5">
-            <Label>Name *</Label>
-            <Input name="name" defaultValue={client.name} required />
+            <Label htmlFor="ec-name">Name *</Label>
+            <Input id="ec-name" name="name" defaultValue={client.name} required autoComplete="name" />
           </div>
           <div className="space-y-1.5">
-            <Label>Company</Label>
-            <Input name="company" defaultValue={client.company ?? ''} />
+            <Label htmlFor="ec-company">Company</Label>
+            <Input id="ec-company" name="company" defaultValue={client.company ?? ''} autoComplete="organization" />
           </div>
           <div className="space-y-1.5">
-            <Label>Email</Label>
-            <Input name="email" type="email" defaultValue={client.email ?? ''} />
+            <Label htmlFor="ec-email">Email</Label>
+            <Input id="ec-email" name="email" type="email" defaultValue={client.email ?? ''} autoComplete="email" />
           </div>
           <div className="space-y-1.5">
-            <Label>Phone</Label>
-            <Input name="phone" defaultValue={client.phone ?? ''} />
+            <Label htmlFor="ec-phone">Phone</Label>
+            <Input id="ec-phone" name="phone" type="tel" defaultValue={client.phone ?? ''} autoComplete="tel" />
           </div>
           <div className="space-y-1.5">
-            <Label>Address</Label>
-            <Input name="address" defaultValue={client.address ?? ''} placeholder="123 Main St, City, Country" />
+            <Label htmlFor="ec-address">Address</Label>
+            <Input id="ec-address" name="address" defaultValue={client.address ?? ''} placeholder="123 Main St, City, Country" autoComplete="street-address" />
           </div>
           <div className="space-y-1.5">
-            <Label>Currency</Label>
-            <CurrencySelect name="currency" defaultValue={client.currency} />
+            <Label htmlFor="ec-currency">Currency</Label>
+            <CurrencySelect id="ec-currency" name="currency" defaultValue={client.currency} />
           </div>
-          {error && <p className="text-sm text-destructive">{error}</p>}
+          {error && <p role="alert" className="text-sm text-destructive">{error}</p>}
           <div className="flex justify-end gap-2 pt-2">
             <Button type="button" variant="outline" onClick={() => setOpen(false)}>Cancel</Button>
             <Button type="submit" disabled={loading}>{loading ? 'Saving...' : 'Save Changes'}</Button>

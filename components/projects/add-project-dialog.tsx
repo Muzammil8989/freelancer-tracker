@@ -10,6 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Textarea } from '@/components/ui/textarea'
 import { Plus } from 'lucide-react'
 import { toast } from 'sonner'
+import { DatePicker } from '@/components/ui/date-picker'
 
 type Client = { id: string; name: string }
 
@@ -57,22 +58,22 @@ export function AddProjectDialog({ clients }: { clients: Client[] }) {
         <DialogHeader><DialogTitle>New Project</DialogTitle></DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4 mt-2">
           <div className="space-y-1.5">
-            <Label>Name *</Label>
-            <Input name="name" placeholder="Project name" required />
+            <Label htmlFor="proj-name">Name *</Label>
+            <Input id="proj-name" name="name" placeholder="Project name" required />
           </div>
           <div className="space-y-1.5">
-            <Label>Client</Label>
+            <Label htmlFor="proj-client">Client</Label>
             <Select name="client_id">
-              <SelectTrigger><SelectValue placeholder="Select client" /></SelectTrigger>
+              <SelectTrigger id="proj-client"><SelectValue placeholder="Select client" /></SelectTrigger>
               <SelectContent>
                 {clients.map(c => <SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>)}
               </SelectContent>
             </Select>
           </div>
           <div className="space-y-1.5">
-            <Label>Type</Label>
+            <Label htmlFor="proj-type">Type</Label>
             <Select name="type" defaultValue="hourly" onValueChange={setType}>
-              <SelectTrigger><SelectValue /></SelectTrigger>
+              <SelectTrigger id="proj-type"><SelectValue /></SelectTrigger>
               <SelectContent>
                 <SelectItem value="hourly">Hourly</SelectItem>
                 <SelectItem value="fixed">Fixed Price</SelectItem>
@@ -81,22 +82,22 @@ export function AddProjectDialog({ clients }: { clients: Client[] }) {
           </div>
           {type === 'hourly' ? (
             <div className="space-y-1.5">
-              <Label>Hourly Rate ($)</Label>
-              <Input name="hourly_rate" type="number" step="0.01" placeholder="50.00" />
+              <Label htmlFor="proj-hourly-rate">Hourly Rate ($)</Label>
+              <Input id="proj-hourly-rate" name="hourly_rate" type="number" inputMode="decimal" step="0.01" placeholder="50.00" />
             </div>
           ) : (
             <div className="space-y-1.5">
-              <Label>Fixed Amount ($)</Label>
-              <Input name="fixed_amount" type="number" step="0.01" placeholder="1000.00" />
+              <Label htmlFor="proj-fixed-amount">Fixed Amount ($)</Label>
+              <Input id="proj-fixed-amount" name="fixed_amount" type="number" inputMode="decimal" step="0.01" placeholder="1000.00" />
             </div>
           )}
           <div className="space-y-1.5">
-            <Label>Start Date</Label>
-            <Input name="start_date" type="date" />
+            <Label htmlFor="proj-start-date">Start Date</Label>
+            <DatePicker id="proj-start-date" name="start_date" placeholder="Pick start date" />
           </div>
           <div className="space-y-1.5">
-            <Label>Description</Label>
-            <Textarea name="description" placeholder="Brief description..." rows={3} />
+            <Label htmlFor="proj-description">Description</Label>
+            <Textarea id="proj-description" name="description" placeholder="Brief description..." rows={3} />
           </div>
           <div className="flex justify-end gap-2 pt-2">
             <Button type="button" variant="outline" onClick={() => setOpen(false)}>Cancel</Button>

@@ -9,6 +9,7 @@ import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Plus } from 'lucide-react'
 import { toast } from 'sonner'
+import { DatePicker } from '@/components/ui/date-picker'
 
 type Project = { id: string; name: string }
 
@@ -52,9 +53,9 @@ export function LogTimeDialog({ projects }: { projects: Project[] }) {
         <DialogHeader><DialogTitle>Log Time</DialogTitle></DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4 mt-2">
           <div className="space-y-1.5">
-            <Label>Project *</Label>
+            <Label htmlFor="time-project">Project *</Label>
             <Select name="project_id" required>
-              <SelectTrigger><SelectValue placeholder="Select project" /></SelectTrigger>
+              <SelectTrigger id="time-project"><SelectValue placeholder="Select project" /></SelectTrigger>
               <SelectContent>
                 {projects.map(p => <SelectItem key={p.id} value={p.id}>{p.name}</SelectItem>)}
               </SelectContent>
@@ -62,22 +63,22 @@ export function LogTimeDialog({ projects }: { projects: Project[] }) {
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1.5">
-              <Label>Hours *</Label>
-              <Input name="hours" type="number" step="0.25" min="0.25" placeholder="2.5" required />
+              <Label htmlFor="time-hours">Hours *</Label>
+              <Input id="time-hours" name="hours" type="number" inputMode="decimal" step="0.25" min="0.25" placeholder="2.5" required />
             </div>
             <div className="space-y-1.5">
-              <Label>Date *</Label>
-              <Input name="date" type="date" defaultValue={new Date().toISOString().split('T')[0]} required />
+              <Label htmlFor="time-date">Date *</Label>
+              <DatePicker id="time-date" name="date" defaultValue={new Date().toISOString().split('T')[0]} />
             </div>
           </div>
           <div className="space-y-1.5">
-            <Label>Description</Label>
-            <Input name="description" placeholder="What did you work on?" />
+            <Label htmlFor="time-description">Description</Label>
+            <Input id="time-description" name="description" placeholder="What did you work on?" />
           </div>
           <div className="space-y-1.5">
-            <Label>Billable</Label>
+            <Label htmlFor="time-billable">Billable</Label>
             <Select name="billable" defaultValue="true">
-              <SelectTrigger><SelectValue /></SelectTrigger>
+              <SelectTrigger id="time-billable"><SelectValue /></SelectTrigger>
               <SelectContent>
                 <SelectItem value="true">Billable</SelectItem>
                 <SelectItem value="false">Non-billable</SelectItem>

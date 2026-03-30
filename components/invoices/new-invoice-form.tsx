@@ -11,6 +11,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Textarea } from '@/components/ui/textarea'
 import { Separator } from '@/components/ui/separator'
 import { Plus, Trash2 } from 'lucide-react'
+import { DatePicker } from '@/components/ui/date-picker'
+
+const fmt = (n: number) =>
+  n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
 
 type Client = { id: string; name: string }
 type Project = { id: string; name: string }
@@ -106,12 +110,12 @@ export function NewInvoiceForm({ clients, projects }: { clients: Client[]; proje
             </Select>
           </div>
           <div className="space-y-1.5">
-            <Label>Issue Date *</Label>
-            <Input name="issue_date" type="date" defaultValue={new Date().toISOString().split('T')[0]} required />
+            <Label htmlFor="inv-issue-date">Issue Date *</Label>
+            <DatePicker id="inv-issue-date" name="issue_date" defaultValue={new Date().toISOString().split('T')[0]} />
           </div>
           <div className="space-y-1.5">
-            <Label>Due Date *</Label>
-            <Input name="due_date" type="date" required />
+            <Label htmlFor="inv-due-date">Due Date *</Label>
+            <DatePicker id="inv-due-date" name="due_date" placeholder="Pick due date" />
           </div>
           <div className="space-y-1.5">
             <Label>Project</Label>
@@ -143,15 +147,15 @@ export function NewInvoiceForm({ clients, projects }: { clients: Client[]; proje
             <div key={i} className="grid grid-cols-12 gap-2 items-center">
               <Input className="col-span-5" placeholder="Description" value={item.description}
                 onChange={e => updateItem(i, 'description', e.target.value)} required />
-              <Input className="col-span-2" type="number" min="0.01" step="0.01" value={item.quantity}
-                onChange={e => updateItem(i, 'quantity', Number(e.target.value))} />
-              <Input className="col-span-3" type="number" min="0" step="0.01" placeholder="0.00" value={item.unit_price}
-                onChange={e => updateItem(i, 'unit_price', Number(e.target.value))} />
+              <Input className="col-span-2" type="number" inputMode="decimal" min="0" step="0.01" value={item.quantity}
+                onChange={e => updateItem(i, 'quantity', Math.max(0, Number(e.target.value)))} />
+              <Input className="col-span-3" type="number" inputMode="decimal" min="0" step="0.01" placeholder="0.00" value={item.unit_price}
+                onChange={e => updateItem(i, 'unit_price', Math.max(0, Number(e.target.value)))} />
               <div className="col-span-2 flex items-center justify-end gap-1">
-                <span className="text-sm font-medium">${(item.quantity * item.unit_price).toFixed(2)}</span>
+                <span className="text-sm font-medium tabular-nums">${fmt(item.quantity * item.unit_price)}</span>
                 {items.length > 1 && (
-                  <Button type="button" variant="ghost" size="icon" className="h-6 w-6" onClick={() => removeItem(i)}>
-                    <Trash2 className="h-3 w-3" />
+                  <Button type="button" variant="ghost" size="icon" className="h-6 w-6" onClick={() => removeItem(i)} aria-label="Remove item">
+                    <Trash2 className="h-3 w-3" aria-hidden="true" />
                   </Button>
                 )}
               </div>
@@ -162,16 +166,16 @@ export function NewInvoiceForm({ clients, projects }: { clients: Client[]; proje
           <div className="space-y-2 text-sm">
             <div className="flex justify-between">
               <span className="text-muted-foreground">Subtotal</span>
-              <span>${subtotal.toFixed(2)}</span>
+              <span className="tabular-nums">${fmt(subtotal)}</span>
             </div>
             <div className="flex items-center justify-between gap-4">
               <span className="text-muted-foreground">Tax (%)</span>
-              <Input className="w-24 h-7 text-right" type="number" min="0" max="100" step="0.1"
-                value={taxRate} onChange={e => setTaxRate(Number(e.target.value))} />
+              <Input className="w-24 h-7 text-right" type="number" inputMode="decimal" min="0" max="100" step="0.1"
+                value={taxRate} onChange={e => setTaxRate(Math.max(0, Math.min(100, Number(e.target.value))))} />
             </div>
             <div className="flex justify-between font-bold text-base">
               <span>Total</span>
-              <span>${total.toFixed(2)}</span>
+              <span className="tabular-nums">${fmt(total)}</span>
             </div>
           </div>
         </CardContent>

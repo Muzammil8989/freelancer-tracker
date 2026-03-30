@@ -9,6 +9,7 @@ import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Pencil } from 'lucide-react'
 import { toast } from 'sonner'
+import { DatePicker } from '@/components/ui/date-picker'
 
 type Project = { id: string; name: string }
 type TimeEntry = {
@@ -71,7 +72,7 @@ export function EditTimeDialog({ entry, projects }: { entry: TimeEntry; projects
           size="icon"
           className="h-7 w-7 shrink-0 text-muted-foreground hover:text-foreground"
         >
-          <Pencil className="h-3.5 w-3.5" />
+          <Pencil className="h-3.5 w-3.5" aria-hidden="true" />
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">
@@ -90,29 +91,29 @@ export function EditTimeDialog({ entry, projects }: { entry: TimeEntry; projects
           )}
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1.5">
-              <Label>Hours *</Label>
-              <Input name="hours" type="number" step="0.25" min="0.25" defaultValue={entry.hours} required />
+              <Label htmlFor="et-hours">Hours *</Label>
+              <Input id="et-hours" name="hours" type="number" inputMode="decimal" step="0.25" min="0.25" defaultValue={entry.hours} required />
             </div>
             <div className="space-y-1.5">
-              <Label>Date *</Label>
-              <Input name="date" type="date" defaultValue={entry.date} required />
+              <Label htmlFor="et-date">Date *</Label>
+              <DatePicker id="et-date" name="date" defaultValue={entry.date} />
             </div>
           </div>
           <div className="space-y-1.5">
-            <Label>Description</Label>
-            <Input name="description" defaultValue={entry.description ?? ''} placeholder="What did you work on?" />
+            <Label htmlFor="et-description">Description</Label>
+            <Input id="et-description" name="description" defaultValue={entry.description ?? ''} placeholder="What did you work on?" />
           </div>
           <div className="space-y-1.5">
-            <Label>Billable</Label>
+            <Label htmlFor="et-billable">Billable</Label>
             <Select value={billable} onValueChange={setBillable}>
-              <SelectTrigger><SelectValue /></SelectTrigger>
+              <SelectTrigger id="et-billable"><SelectValue /></SelectTrigger>
               <SelectContent>
                 <SelectItem value="true">Billable</SelectItem>
                 <SelectItem value="false">Non-billable</SelectItem>
               </SelectContent>
             </Select>
           </div>
-          {error && <p className="text-sm text-destructive">{error}</p>}
+          {error && <p role="alert" className="text-sm text-destructive">{error}</p>}
           <div className="flex justify-end gap-2 pt-2">
             <Button type="button" variant="outline" onClick={() => setOpen(false)}>Cancel</Button>
             <Button type="submit" disabled={loading}>{loading ? 'Saving...' : 'Save Changes'}</Button>

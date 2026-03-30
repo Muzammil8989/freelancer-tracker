@@ -10,6 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { CurrencySelect } from '@/components/ui/currency-select'
 import { ExternalLink, Paperclip, Pencil, X } from 'lucide-react'
 import { toast } from 'sonner'
+import { DatePicker } from '@/components/ui/date-picker'
 
 type Project = { id: string; name: string }
 type Expense = {
@@ -95,29 +96,29 @@ export function EditExpenseDialog({ expense, projects }: { expense: Expense; pro
     <Dialog open={open} onOpenChange={(v) => { setOpen(v); if (!v) { setError(null); resetReceipt() } }}>
       <DialogTrigger asChild>
         <Button variant="ghost" size="icon" className="h-7 w-7 shrink-0 text-muted-foreground hover:text-foreground">
-          <Pencil className="h-3.5 w-3.5" />
+          <Pencil className="h-3.5 w-3.5" aria-hidden="true" />
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">
         <DialogHeader><DialogTitle>Edit Expense</DialogTitle></DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4 mt-2">
           <div className="space-y-1.5">
-            <Label>Description *</Label>
-            <Input name="description" defaultValue={expense.description} required />
+            <Label htmlFor="ee-description">Description *</Label>
+            <Input id="ee-description" name="description" defaultValue={expense.description} required />
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1.5">
-              <Label>Amount *</Label>
-              <Input name="amount" type="number" step="0.01" min="0.01" defaultValue={expense.amount} required />
+              <Label htmlFor="ee-amount">Amount *</Label>
+              <Input id="ee-amount" name="amount" type="number" inputMode="decimal" step="0.01" min="0.01" defaultValue={expense.amount} required />
             </div>
             <div className="space-y-1.5">
-              <Label>Date *</Label>
-              <Input name="date" type="date" defaultValue={expense.date} required />
+              <Label htmlFor="ee-date">Date *</Label>
+              <DatePicker id="ee-date" name="date" defaultValue={expense.date} />
             </div>
           </div>
           <div className="space-y-1.5">
-            <Label>Currency</Label>
-            <CurrencySelect name="currency" defaultValue={expense.currency} />
+            <Label htmlFor="ee-currency">Currency</Label>
+            <CurrencySelect id="ee-currency" name="currency" defaultValue={expense.currency} />
           </div>
           <div className="space-y-1.5">
             <Label>Category</Label>
@@ -156,8 +157,8 @@ export function EditExpenseDialog({ expense, projects }: { expense: Expense; pro
               <div className="flex items-center gap-2 p-2 rounded-md border bg-muted/50 text-sm">
                 <Paperclip className="h-4 w-4 text-muted-foreground shrink-0" />
                 <span className="truncate flex-1">{receiptFile.name}</span>
-                <button type="button" onClick={resetReceipt}>
-                  <X className="h-4 w-4 text-muted-foreground hover:text-destructive" />
+                <button type="button" onClick={resetReceipt} aria-label="Remove receipt">
+                  <X className="h-4 w-4 text-muted-foreground hover:text-destructive" aria-hidden="true" />
                 </button>
               </div>
             ) : expense.receipt_url ? (
@@ -176,7 +177,7 @@ export function EditExpenseDialog({ expense, projects }: { expense: Expense; pro
               </Button>
             )}
           </div>
-          {error && <p className="text-sm text-destructive">{error}</p>}
+          {error && <p role="alert" className="text-sm text-destructive">{error}</p>}
           <div className="flex justify-end gap-2 pt-2">
             <Button type="button" variant="outline" onClick={() => setOpen(false)}>Cancel</Button>
             <Button type="submit" disabled={loading}>{loading ? 'Saving...' : 'Save Changes'}</Button>

@@ -11,10 +11,9 @@ export default async function DashboardLayout({ children }: { children: React.Re
   const { userId } = await auth()
   if (!userId) redirect('/sign-in')
 
-  if (userId) {
+  const user = await currentUser()
+  if (user) {
     after(async () => {
-      const user = await currentUser()
-      if (!user) return
       await supabaseAdmin.from('users').upsert(
         {
           id: user.id,

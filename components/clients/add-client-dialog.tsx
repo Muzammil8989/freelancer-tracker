@@ -68,29 +68,29 @@ export function AddClientDialog() {
         <form onSubmit={handleSubmit} className="space-y-4 mt-2">
           <div className="space-y-1.5">
             <Label htmlFor="name">Name *</Label>
-            <Input id="name" name="name" placeholder="John Doe" required />
+            <Input id="name" name="name" placeholder="John Doe" required autoComplete="name" />
           </div>
           <div className="space-y-1.5">
             <Label htmlFor="company">Company</Label>
-            <Input id="company" name="company" placeholder="Acme Inc." />
+            <Input id="company" name="company" placeholder="Acme Inc." autoComplete="organization" />
           </div>
           <div className="space-y-1.5">
             <Label htmlFor="email">Email</Label>
-            <Input id="email" name="email" type="email" placeholder="john@example.com" />
+            <Input id="email" name="email" type="email" placeholder="john@example.com" autoComplete="email" />
           </div>
           <div className="space-y-1.5">
             <Label htmlFor="phone">Phone</Label>
-            <Input id="phone" name="phone" placeholder="+1 234 567 8900" />
+            <Input id="phone" name="phone" type="tel" placeholder="+1 234 567 8900" autoComplete="tel" />
           </div>
           <div className="space-y-1.5">
             <Label htmlFor="address">Address</Label>
-            <Input id="address" name="address" placeholder="123 Main St, City, Country" />
+            <Input id="address" name="address" placeholder="123 Main St, City, Country" autoComplete="street-address" />
           </div>
           <div className="space-y-1.5">
-            <Label>Currency</Label>
-            <CurrencySelect name="currency" defaultValue="USD" />
+            <Label htmlFor="currency">Currency</Label>
+            <CurrencySelect id="currency" name="currency" defaultValue="USD" />
           </div>
-          {error && <p className="text-sm text-destructive">{error}</p>}
+          {error && <p role="alert" className="text-sm text-destructive">{error}</p>}
           <div className="flex justify-end gap-2 pt-2">
             <Button type="button" variant="outline" onClick={() => setOpen(false)}>Cancel</Button>
             <Button type="submit" disabled={loading}>{loading ? 'Saving...' : 'Add Client'}</Button>

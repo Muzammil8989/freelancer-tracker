@@ -179,21 +179,21 @@ export function InvoicesDataTable({
         </p>
         <div className="flex items-center gap-1">
           <Button variant="outline" size="icon" className="h-8 w-8"
-            onClick={() => updateParams({ page: 1 })} disabled={page <= 1 || isPending} title="First page">
-            <ChevronsLeft className="h-4 w-4" />
+            onClick={() => updateParams({ page: 1 })} disabled={page <= 1 || isPending} aria-label="First page">
+            <ChevronsLeft className="h-4 w-4" aria-hidden="true" />
           </Button>
           <Button variant="outline" size="icon" className="h-8 w-8"
-            onClick={() => updateParams({ page: page - 1 })} disabled={page <= 1 || isPending} title="Previous page">
-            <ChevronLeft className="h-4 w-4" />
+            onClick={() => updateParams({ page: page - 1 })} disabled={page <= 1 || isPending} aria-label="Previous page">
+            <ChevronLeft className="h-4 w-4" aria-hidden="true" />
           </Button>
-          <span className="text-sm text-muted-foreground px-3 tabular-nums">{page} / {totalPages}</span>
+          <span className="text-sm text-muted-foreground px-3 tabular-nums" aria-live="polite" aria-atomic="true">{page} / {totalPages}</span>
           <Button variant="outline" size="icon" className="h-8 w-8"
-            onClick={() => updateParams({ page: page + 1 })} disabled={page >= totalPages || isPending} title="Next page">
-            <ChevronRight className="h-4 w-4" />
+            onClick={() => updateParams({ page: page + 1 })} disabled={page >= totalPages || isPending} aria-label="Next page">
+            <ChevronRight className="h-4 w-4" aria-hidden="true" />
           </Button>
           <Button variant="outline" size="icon" className="h-8 w-8"
-            onClick={() => updateParams({ page: totalPages })} disabled={page >= totalPages || isPending} title="Last page">
-            <ChevronsRight className="h-4 w-4" />
+            onClick={() => updateParams({ page: totalPages })} disabled={page >= totalPages || isPending} aria-label="Last page">
+            <ChevronsRight className="h-4 w-4" aria-hidden="true" />
           </Button>
         </div>
       </div>

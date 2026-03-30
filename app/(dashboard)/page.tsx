@@ -179,7 +179,7 @@ export default async function DashboardPage() {
       <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <p className="text-xs text-muted-foreground font-medium uppercase tracking-widest mb-0.5">{today}</p>
-          <h2 className="text-2xl font-bold tracking-tight">{getGreeting()} 👋</h2>
+          <h2 className="text-2xl font-bold tracking-tight">{getGreeting()}</h2>
           <p className="text-sm text-muted-foreground mt-0.5">Here&apos;s your freelance business at a glance.</p>
         </div>
         <div className="flex items-center gap-2 mt-3 sm:mt-0">

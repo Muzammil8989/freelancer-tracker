@@ -26,12 +26,13 @@ let cachedCurrencies: CurrencyOption[] | null = null
 
 interface CurrencySelectProps {
   name?: string
+  id?: string
   defaultValue?: string
   value?: string
   onValueChange?: (value: string) => void
 }
 
-export function CurrencySelect({ name, defaultValue = 'USD', value, onValueChange }: CurrencySelectProps) {
+export function CurrencySelect({ name, id, defaultValue = 'USD', value, onValueChange }: CurrencySelectProps) {
   const [currencies, setCurrencies] = useState<CurrencyOption[]>(cachedCurrencies ?? FALLBACK)
   const [selected, setSelected] = useState(value ?? defaultValue)
 
@@ -65,7 +66,7 @@ export function CurrencySelect({ name, defaultValue = 'USD', value, onValueChang
     <>
       {name && <input type="hidden" name={name} value={selected} />}
       <Select value={selected} onValueChange={handleChange}>
-        <SelectTrigger>
+        <SelectTrigger id={id}>
           <SelectValue />
         </SelectTrigger>
         <SelectContent className="max-h-64">

@@ -10,6 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { CurrencySelect } from '@/components/ui/currency-select'
 import { Paperclip, Plus, X } from 'lucide-react'
 import { toast } from 'sonner'
+import { DatePicker } from '@/components/ui/date-picker'
 
 type Project = { id: string; name: string }
 
@@ -78,27 +79,27 @@ export function AddExpenseDialog({ projects }: { projects: Project[] }) {
         <DialogHeader><DialogTitle>Add Expense</DialogTitle></DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4 mt-2">
           <div className="space-y-1.5">
-            <Label>Description *</Label>
-            <Input name="description" placeholder="What was this expense for?" required />
+            <Label htmlFor="exp-description">Description *</Label>
+            <Input id="exp-description" name="description" placeholder="What was this expense for?" required />
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1.5">
-              <Label>Amount *</Label>
-              <Input name="amount" type="number" step="0.01" min="0.01" placeholder="0.00" required />
+              <Label htmlFor="exp-amount">Amount *</Label>
+              <Input id="exp-amount" name="amount" type="number" inputMode="decimal" step="0.01" min="0.01" placeholder="0.00" required />
             </div>
             <div className="space-y-1.5">
-              <Label>Date *</Label>
-              <Input name="date" type="date" defaultValue={new Date().toISOString().split('T')[0]} required />
+              <Label htmlFor="exp-date">Date *</Label>
+              <DatePicker id="exp-date" name="date" defaultValue={new Date().toISOString().split('T')[0]} />
             </div>
           </div>
           <div className="space-y-1.5">
-            <Label>Currency</Label>
-            <CurrencySelect name="currency" defaultValue="USD" />
+            <Label htmlFor="exp-currency">Currency</Label>
+            <CurrencySelect id="exp-currency" name="currency" defaultValue="USD" />
           </div>
           <div className="space-y-1.5">
-            <Label>Category</Label>
+            <Label htmlFor="exp-category">Category</Label>
             <Select name="category" defaultValue="other">
-              <SelectTrigger><SelectValue /></SelectTrigger>
+              <SelectTrigger id="exp-category"><SelectValue /></SelectTrigger>
               <SelectContent>
                 <SelectItem value="software">Software</SelectItem>
                 <SelectItem value="hardware">Hardware</SelectItem>
@@ -130,8 +131,8 @@ export function AddExpenseDialog({ projects }: { projects: Project[] }) {
               <div className="flex items-center gap-2 p-2 rounded-md border bg-muted/50 text-sm">
                 <Paperclip className="h-4 w-4 text-muted-foreground shrink-0" />
                 <span className="truncate flex-1">{receiptFile.name}</span>
-                <button type="button" onClick={resetReceipt}>
-                  <X className="h-4 w-4 text-muted-foreground hover:text-destructive" />
+                <button type="button" onClick={resetReceipt} aria-label="Remove receipt">
+                  <X className="h-4 w-4 text-muted-foreground hover:text-destructive" aria-hidden="true" />
                 </button>
               </div>
             ) : (
